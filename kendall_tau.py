@@ -22,9 +22,6 @@ def kendall_tau_w(list_a, list_b, s):
     return ret_val
 
 def kendall_tau(list_a, list_b, s):
-#    print(list_a)
-#    print( list_b)
-#    print(s)
     ret_val = 0
     N = len(list_a)
     for i in range(N):
@@ -48,11 +45,8 @@ def avg_w(l):
     return sum
 
 def corr_w(list_a, list_b, s):
-#    print(list_a)
-#    print(list_b)
     avg_a = avg_w(list_a)/s
     avg_b = avg_w(list_b)/s
-#    print(avg_a, avg_b)
     ret_val = 0
     for i in range(len(list_a)):
         w = 1.0/(i+1)
@@ -62,10 +56,8 @@ def corr_w(list_a, list_b, s):
 def corr(list_a, list_b, s):
     avg_a = avg(list_a)
     avg_b = avg(list_b)
-#    print(avg_a, avg_b)
     ret_val = 0
     for i in range(len(list_a)):
-#        print(ret_val)
         ret_val += (list_a[i]- avg_a)*(list_b[i]-avg_b)
     return ret_val
 
@@ -90,18 +82,6 @@ def min_val(l):
             ret_val = num
             first = False
         if ret_val > num:
-            ret_val = num
-    return ret_val
-
-def max_val(l):
-    ret_val = 0;
-    first = True
-    for i in l:
-        num = l[i]
-        if first:
-            ret_val = num
-            first = False
-        if ret_val < num:
             ret_val = num
     return ret_val
 
@@ -157,9 +137,6 @@ def main():
     prev = {}
     results = []
     prev_sort = []
-    func = corr_w
-    pr = proc2
-    sor = sorted2
     if sys.argv[3] == "w_corr":
         func = corr_w
         pr = proc2
@@ -176,6 +153,8 @@ def main():
         func = kendall_tau_w
         pr = proc
         sor = sorted
+    else:
+        return
         
     for inter in data["centrality_test"]["intervals"]:
         act_k = int(inter["interval"]["graph_stat"]["num_nodes"])
@@ -191,7 +170,6 @@ def main():
 
         a, b, s = pr(prev, act, act_sort)
         h_n = szum(len(s))
-#        print(h_n)
         val  = func(a,b,h_n)
         sorted_b = sor(b,reverse=True)
         sorted_a = sor(a, reverse=True)
@@ -200,17 +178,6 @@ def main():
         prev = act
         prev_sort = act_sort
         print(str(inter["interval"]["time"]["start"])+" "+ str(val/math.sqrt(s_1*s_2)))
-
-def test_main():
-    print(kendal_tau([1,2,3],[1,2,3]))
-    print(kendal_tau([2,1,3],[2,1,3]))
-    print(kendal_tau([2,1,3],[2,1,3]))
-    print(kendal_tau([3,1,2],[3,1,2]))
-    print(kendal_tau([1,2,3],[2,1,3]))
-    print(kendal_tau([1,2,3],[3,2,1]))
-
-def test_main2():
-    print(proc({"a":1, "b":2, "x":3}, {"a":3, "b":4}))
     
 if __name__ == '__main__':
     main()

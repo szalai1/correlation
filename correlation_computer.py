@@ -82,7 +82,6 @@ def kendall(top_list_prev, top_list, sorted_id):
     return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
-
 def correl_w(list_a, list_b, s):
     avg_a = avg_w(list_a)/s
     avg_b = avg_w(list_b)/s
@@ -117,17 +116,14 @@ def compute_corr(list_a, list_b):
     return [val/math.sqrt(val_a*val_b), w_val/ math.sqrt(w_val_a*w_val_b)]
 
 ################################ FELDOLGOZOK ############################
-def write_out(outfile, value_list, time):
-    outfile.write(time)
-    for i in value_list:
+def write_out(outfile, value_list):
+    outfile.write(str(value_list[0]))
+    for i in value_list[1:]:
         outfile.write(" "+ str(i))
     outfile.write("\n")
 
 def proc_kendall(l1, l2, sort_id):
-    print("kendall lista", l1)
-    print( l2)
-    print( sort_id)
-    print(len(l1), len(l2))
+    print("kendall lista")
     list_a = []
     list_b = []
     n1 = min_val(l1) - 1
@@ -147,10 +143,7 @@ def proc_kendall(l1, l2, sort_id):
     return list_a, list_b
 
 def proc_corr(l1, l2, sort_id):
-    print("corr lista", l1)
-    print( l2)
-    print( sort_id)
-    print(len(l1), len(l2))
+    print("corr lista")
     list_a = []
     list_b = []
     for i in sort_id:
@@ -178,10 +171,12 @@ def pre_proc(day):
 
 #####################################################################
 
-def compute(top_list_prev, top_list, ret_sort):
+def compute(top_list_prev, top_list, ret_sort, correls):
     ret_list = []
-    #ret_list += kendall(top_list_prev, top_list, ret_sort)
-    ret_list += corr(top_list_prev, top_list, ret_sort)
+    if "kendall" in correls:
+        ret_list += kendall(top_list_prev, top_list, ret_sort)
+    if "corr" in correls:
+        ret_list += corr(top_list_prev, top_list, ret_sort)
     return ret_list
     
 def load_json(dirname):
@@ -204,9 +199,11 @@ def main():
             out_file.write(str(inter["interval"]["time"]["start"])+" -\n")
             continue
         if day != 0:
-            centralities  = compute(top_list_prev, top_list, ret_sort)
+            centralities = [str(inter["interval"]["time"]["start"])]
+            centralities += compute(top_list_prev, top_list, ret_sort, sys.argv[3:])
             centralities.append( inter["interval"]["graph_stat"]["num_nodes"])
-            write_out(out_file, centralities, str(inter["interval"]["time"]["start"]) )
+            centralities.append(inter["interval"]["graph_stat"]["new_nodes"])
+            write_out(out_file, centralities )
         day+=1
         top_list_prev = top_list
         
