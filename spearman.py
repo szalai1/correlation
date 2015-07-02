@@ -8,6 +8,7 @@ def pre_proc(day):
     rank = 1.0
     for line in file:
         splitted = line[:-1].split(" ")
+        # rank is position! no centrality is score included.
         ret_val[int(splitted[0])] = rank
         rank += 1
     return ret_val#, ret_sort

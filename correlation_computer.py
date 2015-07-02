@@ -133,6 +133,7 @@ def proc_kendall(l1, l2, sort_id):
     n1 = min_val(l1) - 1
     n2 = min_val(l2) - 1
     for i in sort_id:
+        # az aktualis toplistaban minden centralitas szerint lesz csokk. sorrendben
         list_b.append(l2[i])
         if i in l1:
             list_a.append(l1[i])
@@ -142,6 +143,7 @@ def proc_kendall(l1, l2, sort_id):
         if i not in l2:
             list_b.append(n2)
             list_a.append(l1[i])
+            # az elozo intervallumhoz tartozo adat rendezetlen lesz a centralitas szempontjabol. Igy kesobb ezt ideiglenesen majd rendezni kell (pl. compute_kendall()).
     return list_a, list_b
 
 def proc_corr(l1, l2, sort_id):
@@ -166,6 +168,7 @@ def proc_corr(l1, l2, sort_id):
 def pre_proc(day):
     file = open(sys.argv[1]+ "/pagerank_scores_" + str(day) + ".txt_s")
     ret_val = {}
+    # az input fajlok (pl.: *.txt_s) a centralitas szerint vannak rendezve
     ret_sort = []
     for line in file:
         splitted = line[:-1].split(" ")
@@ -177,7 +180,7 @@ def pre_proc(day):
 
 def compute(top_list_prev, top_list, ret_sort):
     ret_list = []
-    ret_list += kendall(top_list_prev, top_list, ret_sort)
+    #ret_list += kendall(top_list_prev, top_list, ret_sort)
     ret_list += corr(top_list_prev, top_list, ret_sort)
     return ret_list
     
