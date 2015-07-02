@@ -69,6 +69,7 @@ def compute_kendall(list_a, list_b):
     val = kendall_tau(list_a, list_b)
     w_val = kendall_tau_w(list_a, list_b)
     sorted_a = sorted(list_a, reverse=True)
+#    list_b = sorted(list_b, reverse=True)
     val_a = kendall_tau(sorted_a, sorted_a)
     val_b = kendall_tau(list_b, list_b)
     w_val_a = kendall_tau_w(sorted_a, sorted_a)
@@ -123,6 +124,10 @@ def write_out(outfile, value_list, time):
     outfile.write("\n")
 
 def proc_kendall(l1, l2, sort_id):
+    print("kendall lista", l1)
+    print( l2)
+    print( sort_id)
+    print(len(l1), len(l2))
     list_a = []
     list_b = []
     n1 = min_val(l1) - 1
@@ -140,6 +145,10 @@ def proc_kendall(l1, l2, sort_id):
     return list_a, list_b
 
 def proc_corr(l1, l2, sort_id):
+    print("corr lista", l1)
+    print( l2)
+    print( sort_id)
+    print(len(l1), len(l2))
     list_a = []
     list_b = []
     for i in sort_id:

@@ -147,7 +147,7 @@ def szum(n):
         ret_val += 1.0/(i + 1)
     return ret_val
 
-def sorted2(l):
+def sorted2(l,reverse):
     return l 
 
 def main():
@@ -193,8 +193,8 @@ def main():
         h_n = szum(len(s))
 #        print(h_n)
         val  = func(a,b,h_n)
-        sorted_b = sor(b)
-        sorted_a = sor(a)
+        sorted_b = sor(b,reverse=True)
+        sorted_a = sor(a, reverse=True)
         s_1 = func(sorted_b,sorted_b,h_n)
         s_2 = func(sorted_a,sorted_a,h_n)
         prev = act
