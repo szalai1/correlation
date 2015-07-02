@@ -14,8 +14,8 @@ def pre_proc(day):
 
 def spearman(top_list_prev, top_list):
     ret_val = 0.0
-    end_rank = len(top_list_prev)
-    end_rank_prev = len(top_list) 
+    end_rank = len(top_list_prev) +1
+    end_rank_prev = len(top_list) +1
     size = 0
     for i in top_list_prev:
         size += 1
@@ -24,12 +24,12 @@ def spearman(top_list_prev, top_list):
         else:
             ret_val += top_list_prev[i]*end_rank_prev
             end_rank_prev += 1
+            
     for i in top_list:
         if i not in top_list_prev:
             size += 1
             ret_val += top_list[i]*end_rank
             end_rank += 1
-    print(size, len(top_list_prev), len(top_list))
     x =(ret_val/size) - math.pow((size + 1)/2.0, 2)
     y = (size*size-1)/12.0
     return [x/y]
@@ -59,6 +59,7 @@ def main():
             top_list = pre_proc(day)
         else:
             out_file.write(str(inter["interval"]["time"]["start"])+" -\n")
+            day+=1
             continue
         if day != 0:
             centralities  = spearman(top_list_prev, top_list)#, ret_sort)

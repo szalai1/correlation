@@ -82,7 +82,6 @@ def kendall(top_list_prev, top_list, sorted_id):
     return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
-
 def correl_w(list_a, list_b, s):
     avg_a = avg_w(list_a)/s
     avg_b = avg_w(list_b)/s
