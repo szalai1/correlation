@@ -1,3 +1,4 @@
+import math
 import json
 import sys
 import correlation_computer_for_centrality_ranking as ccfcr
@@ -5,9 +6,22 @@ import correlation_computer_for_centrality_ranking as ccfcr
 ##############################  szamolok ##############################
 """ KENDALL  """
 
+def compute_kendall(list_a, list_b):
+    print("  [ kendall start ... ]")
+    val = ccfcr.kendall_tau(list_a, list_b)
+    w_val = ccfcr.kendall_tau_w(list_a, list_b)
+    sorted_a = sorted(list_a, reverse=False) # itt a poziciok miatt novekvo sorrendben kell rendezni
+#    list_b = sorted(list_b, reverse=False)
+    val_a = ccfcr.kendall_tau(sorted_a, sorted_a)
+    val_b = ccfcr.kendall_tau(list_b, list_b)
+    w_val_a = ccfcr.kendall_tau_w(sorted_a, sorted_a)
+    w_val_b = ccfcr.kendall_tau_w(list_b, list_b )
+    print("  [ kendall done ]")
+    return [val/math.sqrt(val_a*val_b), w_val/ math.sqrt(w_val_a*w_val_b)]
+
 def kendall(top_list_prev, top_list, sorted_id):
     list_a, list_b = proc_vertices(top_list_prev, top_list, sorted_id)
-    return ccfcr.compute_kendall(list_a, list_b)
+    return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
 
