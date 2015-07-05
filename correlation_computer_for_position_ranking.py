@@ -63,6 +63,14 @@ def pre_proc(day):
 
 #####################################################################
 
+def compute(top_list_prev, top_list, ret_sort, correls):
+    ret_list = []
+    if "kendall" in correls:
+        ret_list += kendall(top_list_prev, top_list, ret_sort)
+    if "corr" in correls:
+        ret_list += corr(top_list_prev, top_list, ret_sort)
+    return ret_list
+
 def main():
     intervals = ccfcr.load_json(sys.argv[1])
     out_file = open(sys.argv[2], 'w')
@@ -79,7 +87,7 @@ def main():
             continue
         if day != 0:
             centralities = [str(inter["interval"]["time"]["start"])]
-            centralities += ccfcr.compute(top_list_prev, top_list, ret_sort, sys.argv[3:])
+            centralities += compute(top_list_prev, top_list, ret_sort, sys.argv[3:])
             centralities.append( inter["interval"]["graph_stat"]["num_nodes"])
             centralities.append(inter["interval"]["graph_stat"]["new_nodes"])
             ccfcr.write_out(out_file, centralities)

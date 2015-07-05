@@ -57,3 +57,18 @@ def test_kendall_dissimilar():
 	assert abs(c_res[0] - p_res[0]) < epsilon
 	assert False == (abs(c_res_2[0] - p_res[0]) < epsilon)
 	assert abs(c_res[1] - p_res[1]) < epsilon
+
+# special: small test 2: it is a synthetic exmaple
+prev_c = {2:0.131812, 1:0.07125, 0:0.05}
+prev_p = {2:1, 1:2, 0:3}
+curr_c = {3:0.123921, 4:0.069375, 2:0.0669844, 1:0.0375}
+curr_p = {3:1, 4:2, 2:3, 1:4}
+sorted_ids_small = [3,4,2,3]
+
+def test_kendall_small_2():
+	cres = ccfcr.kendall(prev_c, curr_c, sorted_ids_small)
+	print cres
+	pres =ccfpr.kendall(prev_p, curr_p, sorted_ids_small)
+	print pres
+	assert abs(cres[0] - pres[0]) < epsilon
+	assert abs(cres[1] - pres[1]) < epsilon
