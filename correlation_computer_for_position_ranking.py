@@ -55,14 +55,17 @@ def pre_proc(day):
 
 def centrality_to_position(ret_val, ret_sort):
     ret_pos_val = {}
+    summed_rank = 0.0
     i = 0
     j = 1
     N = len(ret_sort)
     for j in range(1,N+1):
+        summed_rank += j
         if j == N or ret_val[ret_sort[j-1]] > ret_val[ret_sort[j]]:
             for k in range(i,j):
-                ret_pos_val[ret_sort[k]] = float(sum(range(i,j)) + j - i) / (j - i)
+                ret_pos_val[ret_sort[k]] = summed_rank / (j-i)
             i = j
+            summed_rank = 0.0
     return ret_pos_val, ret_sort
 
 #####################################################################
