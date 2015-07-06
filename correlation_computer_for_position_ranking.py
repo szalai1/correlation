@@ -82,18 +82,24 @@ def main():
     top_list_prev = []
     top_list = []
     ret_sort = []
+    num_nodes = 1
     for inter in intervals["centrality_test"]["intervals"]:
         print("[ day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
             top_list, ret_sort = pre_proc(day)
+            num_prev_nodes = num_nodes
+            num_nodes = inter["interval"]["graph_stat"]["num_nodes"]
         else:
             out_file.write(str(inter["interval"]["time"]["start"])+" -\n")
             continue
         if day != 0:
             centralities = [str(inter["interval"]["time"]["start"])]
             centralities += compute(top_list_prev, top_list, ret_sort, sys.argv[3:])
-            centralities.append( inter["interval"]["graph_stat"]["num_nodes"])
-            centralities.append(inter["interval"]["graph_stat"]["new_nodes"])
+            num_new_nodes = inter["interval"]["graph_stat"]["new_nodes"]
+            num_deleted_nodes = inter["interval"]["graph_stat"]["deleted_nodes"]
+            centralities.append(num_nodes)
+            centralities.append(float(num_new_nodes) / num_nodes)
+            centralities.append(float(num_deleted_nodes) / num_prev_nodes)
             ccfcr.write_out(out_file, centralities)
         day+=1
         top_list_prev = top_list
