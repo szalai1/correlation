@@ -7,6 +7,7 @@ def pre_proc(day): # there are no ties in this case!
     ret_val = {}
     rank = 1.0
     for line in file:
+        #print rank     
         splitted = line[:-1].split(" ")
         # rank is position! no centrality is score included.
         ret_val[int(splitted[0])] = rank
@@ -15,6 +16,7 @@ def pre_proc(day): # there are no ties in this case!
 
 def spearman(top_list_prev, top_list):
     ret_val = 0.0
+    # potential bug!? switched variables?
     end_rank = len(top_list_prev) +1
     end_rank_prev = len(top_list) +1
     size = 0
@@ -31,6 +33,11 @@ def spearman(top_list_prev, top_list):
             size += 1
             ret_val += top_list[i]*end_rank
             end_rank += 1
+
+    #print end_rank_prev
+    #print end_rank
+    #print size
+
     x =(ret_val/size) - math.pow((size + 1)/2.0, 2)
     y = (size*size-1)/12.0
     return [x/y]
