@@ -7,8 +7,6 @@ import correlation_computer_for_position_ranking as ccfpr
 
 epsilon = 0.0001
 
-# TODO: tie-okra is irni kene valami peldat.
-
 # Similar ranked lists
 prev_data_with_centrality = {0:0.03, 1:0.02, 2:0.018}
 prev_data_with_position = {0:1, 1:2, 2:3}
@@ -59,13 +57,28 @@ def test_kendall_dissimilar():
 	assert abs(c_res[1] - p_res[1]) < epsilon
 
 # special: small test 2: it is a synthetic exmaple
-prev_c = {2:0.131812, 1:0.07125, 0:0.05}
-prev_p = {2:1, 1:2, 0:3}
-curr_c = {3:0.123921, 4:0.069375, 2:0.0669844, 1:0.0375}
-curr_p = {3:1, 4:2, 2:3, 1:4}
-sorted_ids_small = [3,4,2,3]
+prev_c_2 = {2:0.131812, 1:0.07125, 0:0.05}
+prev_p_2 = {2:1, 1:2, 0:3}
+curr_c_2 = {3:0.123921, 4:0.069375, 2:0.0669844, 1:0.0375}
+curr_p_2 = {3:1, 4:2, 2:3, 1:4}
+sorted_ids_small_2 = [3,4,2,3]
 
-def test_kendall_small_2():
+def test_kendall_small_2(): # there is no tie!
+	cres = ccfcr.kendall(prev_c_2, curr_c_2, sorted_ids_small_2)
+	print cres
+	pres =ccfpr.kendall(prev_p_2, curr_p_2, sorted_ids_small_2)
+	print pres
+	assert abs(cres[0] - pres[0]) < epsilon
+	assert abs(cres[1] - pres[1]) < epsilon
+
+# special: small test: it is a synthetic exmaple
+prev_c = {2:0.329029, 1:0.32495, 3:0.136107, 4:0.00015015, 5: 0.00015015, 6: 0.00015015}
+prev_p = {2:1, 1:2, 3:3, 4:4, 5:4, 6:4}
+curr_c = {2:0.329029, 1:0.32495, 3:0.136234, 7:0.00015015, 8: 0.00015015, 9: 0.00015015}
+curr_p = {2:1, 1:2, 3:3, 7:4, 8:4, 9:4}
+sorted_ids_small = [2,1,3,7,8,9]
+
+def test_kendall_small(): # there are ties!
 	cres = ccfcr.kendall(prev_c, curr_c, sorted_ids_small)
 	print cres
 	pres =ccfpr.kendall(prev_p, curr_p, sorted_ids_small)

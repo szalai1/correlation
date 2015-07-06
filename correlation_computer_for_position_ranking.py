@@ -10,7 +10,7 @@ def compute_kendall(list_a, list_b):
     print("  [ kendall start ... ]")
     val = ccfcr.kendall_tau(list_a, list_b)
     w_val = ccfcr.kendall_tau_w(list_a, list_b)
-    sorted_a = sorted(list_a, reverse=False) # itt a poziciok miatt novekvo sorrendben kell rendezni
+    sorted_a = sorted(list_a, reverse=False) # due to position ranking ascending order is needed
 #    list_b = sorted(list_b, reverse=False)
     val_a = ccfcr.kendall_tau(sorted_a, sorted_a)
     val_b = ccfcr.kendall_tau(list_b, list_b)
@@ -47,19 +47,23 @@ def proc_vertices(l1, l2, sort_id):
         if i not in l2:
             list_b.append(n2+1) # tie on last position
             list_a.append(l1[i])
-    return list_a, list_b
+    return list_a, list_b  
 
 def pre_proc(day):
-    file = open(sys.argv[1]+ "/pagerank_scores_" + str(day) + ".txt_s")
-    ret_val = {}
-    ret_sort = []
-    rank = 1.0
-    for line in file:
-        splitted = line[:-1].split(" ")
-        ret_val[int(splitted[0])] = rank
-        ret_sort.append(int(splitted[0])) #ezt el lehetne hagyni. De inkabb taroljuk a csucsok id-jat is. 
-        rank += 1
-    return ret_val, ret_sort    
+    ret_val, ret_sort = ccfcr.pre_proc(day)
+    return  centrality_to_position(ret_val, ret_sort)
+
+def centrality_to_position(ret_val, ret_sort):
+    ret_pos_val = {}
+    i = 0
+    j = 1
+    N = len(ret_sort)
+    for j in range(1,N+1):
+        if j == N or ret_val[ret_sort[j-1]] > ret_val[ret_sort[j]]:
+            for k in range(i,j):
+                ret_pos_val[ret_sort[k]] = float(sum(range(i,j)) + j - i) / (j - i)
+            i = j
+    return ret_pos_val, ret_sort
 
 #####################################################################
 

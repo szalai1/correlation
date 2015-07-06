@@ -2,7 +2,7 @@ import math
 import json
 import sys
 
-def pre_proc(day):
+def pre_proc(day): # there are no ties in this case!
     file = open(sys.argv[1]+ "/pagerank_scores_" + str(day) + ".txt_s")
     ret_val = {}
     rank = 1.0
