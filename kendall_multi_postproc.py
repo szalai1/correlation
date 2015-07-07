@@ -1,8 +1,6 @@
 import json
 import sys
 import correlation_computer_for_centrality_ranking as ccfcr
-
-#TODO: what to do with missing days??? 
     
 def load_json(dirname):
     file_name = dirname + "/intervals.json"
@@ -27,7 +25,8 @@ def main():
             num_prev_nodes = num_nodes
             num_nodes = inter["interval"]["graph_stat"]["num_nodes"]
         else:
-            out_file.write(str(inter["interval"]["time"]["start"])+" -\n")
+            out_file.write(str(inter["interval"]["time"]["start"])+" - - 0 -1.0 -1.0\n")
+            day+=1
             continue
         if day != 0:
             centralities = [str(inter["interval"]["time"]["start"])]

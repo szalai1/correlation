@@ -1,9 +1,5 @@
-import math
-import json
-import sys
+import math, json, sys, os
 import correlation_computer_for_centrality_ranking as ccfcr
-
-#TODO: what to do with missing days??? 
 
 ##############################  szamolok ##############################
 """ KENDALL  """
@@ -54,17 +50,18 @@ def load_toplist(toplist_file_name):
 def main():
     preproc_folder = sys.argv[1]
     interval_id = int(sys.argv[2])
-    # TODO: empty files should be handled here?
     prev_f_name = preproc_folder+"/pagerank_"+str(interval_id-1)+"_p.toplist"
-    print prev_f_name
     curr_f_name = preproc_folder+"/pagerank_"+str(interval_id)+"_c.toplist"
-    top_list_prev = load_toplist(prev_f_name)
-    top_list = load_toplist(curr_f_name)
-    val, w_val = kendall_all(top_list_prev, top_list)
-    out_f_name = preproc_folder+"/pagerank_"+str(interval_id)+".kendall"
-    out_file = open(out_f_name,"w")
-    out_file.write(str(val)+" "+str(w_val)+"\n")
-    out_file.close()
+    if os.path.isfile(curr_f_name): # check whether the given day is empty
+        top_list_prev = load_toplist(prev_f_name)
+        top_list = load_toplist(curr_f_name)
+        val, w_val = kendall_all(top_list_prev, top_list)
+        out_f_name = preproc_folder+"/pagerank_"+str(interval_id)+".kendall"
+        out_file = open(out_f_name,"w")
+        out_file.write(str(val)+" "+str(w_val)+"\n")
+        out_file.close()
+    else:
+        print "Interval "+ str(interval_id) + " is empty!"
 
 if __name__ == '__main__':
     argc = len(sys.argv)

@@ -66,7 +66,7 @@ def main():
             #top_list, ret_sort = pre_proc(day)
             top_list = pre_proc(day)
         else:
-            out_file.write(str(inter["interval"]["time"]["start"])+" -\n")
+            out_file.write(str(inter["interval"]["time"]["start"])+" - 0\n")
             day+=1
             continue
         if day != 0:
@@ -77,4 +77,8 @@ def main():
         top_list_prev = top_list
                   
 if __name__ == '__main__':
-    main()
+   argc = len(sys.argv)
+   if argc == 3:
+       main()
+   else:
+       print 'Usage: <centrality_data_folder> <output_file>'
