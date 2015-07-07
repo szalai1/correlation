@@ -20,18 +20,25 @@ def compute_kendall(list_a, list_b):
     return [val/math.sqrt(val_a*val_b), w_val/ math.sqrt(w_val_a*w_val_b)]
 
 def kendall(top_list_prev, top_list, sorted_id):
-    list_a, list_b = proc_vertices(top_list_prev, top_list, sorted_id)
+    list_a, list_b = proc_kendall(top_list_prev, top_list, sorted_id)
     return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
 
 def corr(top_list_prev, top_list, sorted_id):
-    list_a, list_b = proc_vertices(top_list_prev, top_list, sorted_id)
+    list_a, list_b = proc_corr(top_list_prev, top_list, sorted_id)
+
+    print "### full_interval_0 ###"
+    print list_a
+    print
+    print "### full_interval_1 ###"
+    print list_b
+    
     return ccfcr.compute_corr(list_a, list_b)
 
 ################################ FELDOLGOZOK ############################
 
-def proc_vertices(l1, l2, sort_id):
+def proc_kendall(l1, l2, sort_id):
     print("kendall lista")
     list_a = []
     list_b = []
@@ -47,7 +54,42 @@ def proc_vertices(l1, l2, sort_id):
         if i not in l2:
             list_b.append(n2+1) # tie on last position
             list_a.append(l1[i])
-    return list_a, list_b  
+    return list_a, list_b
+
+def proc_corr(l1, l2, sort_id):
+    print("kendall lista")
+    list_a = []
+    list_b = []
+    n1 = len(l1) + 1.0 # number of vertices in last interval + 1
+    n2 = len(l2) + 1.0 # number of vertices in current interval + 1
+    sum_a = 0.0
+    sum_b = 0.0
+    counter_a = 0
+    counter_b = 0
+    for i in sort_id:
+        if not i in l1:
+            counter_a += 1
+            sum_a += n1
+            n1 += 1
+    for i in l1:
+        if i not in l2:
+            counter_b += 1
+            sum_b += n2
+            n2 += 1
+    avg_a = sum_a / counter_a
+    avg_b = sum_b / counter_b
+
+    for i in sort_id:
+        list_b.append(l2[i])
+        if i in l1:
+            list_a.append(l1[i])
+        else:
+            list_a.append(avg_a) # tie on last position
+    for i in l1:
+        if i not in l2:
+            list_b.append(avg_b) # tie on last position
+            list_a.append(l1[i])
+    return list_a, list_b
 
 def pre_proc(day):
     ret_val, ret_sort = ccfcr.pre_proc(day)
