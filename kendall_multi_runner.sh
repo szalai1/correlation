@@ -8,7 +8,7 @@ num_of_intervals="$4"
 thisDir="$(dirname $0)"
 thisDir="$(readlink -f "$thisDir")"
 
-pushd "$thisDir"
+pushd "$thisDir"/src
 
 echo "Preprocessing centrality data..."
 python kendall_multi_preproc.py "$centrality_data_folder" "$preprocess_folder"

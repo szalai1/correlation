@@ -3,9 +3,8 @@ import json
 import sys
 import correlation_computer_for_centrality_ranking as ccfcr
 
-##############################  szamolok ##############################
+##############################  Calculators ##############################
 """ KENDALL  """
-
 def compute_kendall(list_a, list_b):
     print("  [ kendall start ... ]")
     val = ccfcr.kendall_tau(list_a, list_b)
@@ -24,19 +23,51 @@ def kendall(top_list_prev, top_list, sorted_id):
     return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
+def correl(list_a, list_b, s):
+    avg_a = ccfcr.avg(list_a)
+    avg_b = ccfcr.avg(list_b)
+    avg_a_w = ccfcr.avg_w(list_a)/s
+    avg_b_w = ccfcr.avg_w(list_b)/s
+    ret_val = 0.0
+    ret_val_w = 0.0
+    for i in range(len(list_a)):
+        w = 1.0/(i+1)
+        ret_val += (list_a[i]- avg_a)*(list_b[i]-avg_b)
+        ret_val_w += ((list_a[i]- avg_a)*(list_b[i]-avg_b)*w)
+    return ret_val, ret_val_w
+
+def correl_var(n, s): 
+    rank_list = range(1, n+1) # ranks are integers from 1 to n
+    avg_normal = (n+1) / 2 
+    avg_weighted = ccfcr.avg_w(rank_list)/s
+    ret_val = 0.0
+    ret_val_w = 0.0
+    for i in rank_list:
+        w = 1.0 / i
+        ret_val += math.pow(i - avg_normal, 2)
+        ret_val_w += math.pow(i - avg_normal, 2) * w
+    return ret_val, ret_val_w
+
+def compute_corr(list_a, list_b):
+    print("  [ corr start ... ]")
+    n = len(list_a)
+    h_n = ccfcr.szum(n)
+    val, w_val = correl(list_a, list_b, h_n)
+    var, w_var = correl_var(n, h_n)
+    print("  [ corr done ]")
+    return [val / var, w_val / w_var]
 
 def corr(top_list_prev, top_list, sorted_id):
     list_a, list_b = proc_corr(top_list_prev, top_list, sorted_id)
+    #print "### full_interval_0 ###"
+    #print list_a
+    #print
+    #print "### full_interval_1 ###"
+    #print list_b
+    return compute_corr(list_a, list_b)
 
-    print "### full_interval_0 ###"
-    print list_a
-    print
-    print "### full_interval_1 ###"
-    print list_b
-    
-    return ccfcr.compute_corr(list_a, list_b)
 
-################################ FELDOLGOZOK ############################
+################################ Processors ############################
 
 def proc_kendall(l1, l2, sort_id):
     print("kendall lista")

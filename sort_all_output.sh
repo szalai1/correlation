@@ -2,7 +2,7 @@
 
 function sort_directory {
     for i in $(ls $1/*.txt); do
-        python $(dirname $0)/sort_by_value.py $i "$i"_s &
+        python $(dirname $0)/src/sort_by_value.py $i "$i"_s &
     done
 }
 

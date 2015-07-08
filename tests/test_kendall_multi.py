@@ -1,5 +1,5 @@
 import sys, os, math
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(1, os.path.join(sys.path[0], '../src'))
 import correlation_computer_for_centrality_ranking as ccfcr
 import kendall_multi_computer as kmc
 

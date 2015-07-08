@@ -4,6 +4,7 @@ import sys
 
 def spearman(top_list_prev, top_list, sort_id):
     list_a, list_b = proc_kendall(top_list_prev, top_list, sort_id)
+    
     print "### full_interval_0 ###"
     print list_a
     print

@@ -2,7 +2,7 @@ import math
 import json
 import sys
 
-############### SEGED FUGGVENYEK ####################################
+############### functions ####################################
 def sign(x,y):
     if x > y:
         return 1
@@ -41,7 +41,7 @@ def min_val(l):
         if ret_val > num:
             ret_val = num
     return ret_val
-##############################  szamolok ##############################
+############################## calculators ##############################
 """ KENDALL  """
 def kendall_tau(list_a, list_b):
     ret_val = 0
@@ -115,7 +115,7 @@ def compute_corr(list_a, list_b):
     print("  [ corr done ]")
     return [val/math.sqrt(val_a*val_b), w_val/ math.sqrt(w_val_a*w_val_b)]
 
-################################ FELDOLGOZOK ############################
+################################ Processors ############################
 def write_out(outfile, value_list):
     outfile.write(str(value_list[0]))
     for i in value_list[1:]:
@@ -129,7 +129,7 @@ def proc_kendall(l1, l2, sort_id):
     n1 = min_val(l1) - 1
     n2 = min_val(l2) - 1
     for i in sort_id:
-        # az aktualis toplistaban minden centralitas szerint lesz csokk. sorrendben
+        # current toplist contains nodes in descending order based on centrality scores
         list_b.append(l2[i])
         if i in l1:
             list_a.append(l1[i])
@@ -139,7 +139,7 @@ def proc_kendall(l1, l2, sort_id):
         if i not in l2:
             list_b.append(n2)
             list_a.append(l1[i])
-            # az elozo intervallumhoz tartozo adat rendezetlen lesz a centralitas szempontjabol. Igy kesobb ezt ideiglenesen majd rendezni kell (pl. compute_kendall()).
+            # previous toplist is not sorted. Later we must sort it for the variance (e.g.: compute_kendall()).
     return list_a, list_b
 
 def proc_corr(l1, l2, sort_id):
@@ -161,7 +161,7 @@ def proc_corr(l1, l2, sort_id):
 def pre_proc(day):
     file = open(sys.argv[1]+ "/pagerank_scores_" + str(day) + ".txt_s")
     ret_val = {}
-    # az input fajlok (pl.: *.txt_s) a centralitas szerint vannak rendezve
+    # input files (e.g.: *.txt_s) are ordered according to centrality scores
     ret_sort = []
     for line in file:
         splitted = line[:-1].split(" ")

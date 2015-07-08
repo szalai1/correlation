@@ -7,7 +7,7 @@ to_interval="$3"
 thisDir="$(dirname $0)"
 thisDir="$(readlink -f "$thisDir")"
 
-pushd "$thisDir"
+pushd "$thisDir"/src
 
 echo "Computing kendall-tau for intervals STARTED."
 echo "It takes a lot of time..."
