@@ -23,29 +23,28 @@ def kendall(top_list_prev, top_list, sorted_id):
     return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
+
 def correl(list_a, list_b, s):
-    avg_a = ccfcr.avg(list_a)
-    avg_b = ccfcr.avg(list_b)
-    avg_a_w = ccfcr.avg_w(list_a)/s
-    avg_b_w = ccfcr.avg_w(list_b)/s
+    n = len(list_a)
+    avg = float(n+1) / 2
+    avg_weighted = ccfcr.avg_w(range(1,n+1))/s
     ret_val = 0.0
     ret_val_w = 0.0
     for i in range(len(list_a)):
         w = 1.0/(i+1)
-        ret_val += (list_a[i]- avg_a)*(list_b[i]-avg_b)
-        ret_val_w += ((list_a[i]- avg_a)*(list_b[i]-avg_b)*w)
+        ret_val += (list_a[i] - avg)*(list_b[i] - avg)
+        ret_val_w += ((list_a[i]- avg_weighted) * (list_b[i]-avg_weighted) * w)
     return ret_val, ret_val_w
 
-def correl_var(n, s): 
-    rank_list = range(1, n+1) # ranks are integers from 1 to n
-    avg_normal = (n+1) / 2 
-    avg_weighted = ccfcr.avg_w(rank_list)/s
+def correl_var(n, s):
+    avg = float(n+1) / 2
+    avg_weighted = ccfcr.avg_w(range(1,n+1))/s
     ret_val = 0.0
     ret_val_w = 0.0
-    for i in rank_list:
-        w = 1.0 / i
-        ret_val += math.pow(i - avg_normal, 2)
-        ret_val_w += math.pow(i - avg_normal, 2) * w
+    for i in range(n):
+        w = 1.0/(i+1)
+        ret_val += math.pow(i+1 - avg,2)
+        ret_val_w += (math.pow(i+1 - avg_weighted,2) * w)
     return ret_val, ret_val_w
 
 def compute_corr(list_a, list_b):
@@ -59,13 +58,7 @@ def compute_corr(list_a, list_b):
 
 def corr(top_list_prev, top_list, sorted_id):
     list_a, list_b = proc_corr(top_list_prev, top_list, sorted_id)
-    #print "### full_interval_0 ###"
-    #print list_a
-    #print
-    #print "### full_interval_1 ###"
-    #print list_b
     return compute_corr(list_a, list_b)
-
 
 ################################ Processors ############################
 
