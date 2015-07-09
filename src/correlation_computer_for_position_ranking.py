@@ -23,17 +23,18 @@ def kendall(top_list_prev, top_list, sorted_id):
     return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
-
 def correl(list_a, list_b, s):
     n = len(list_a)
-    avg = float(n+1) / 2
-    avg_weighted = ccfcr.avg_w(range(1,n+1))/s
+    avg_normal = float(n+1) / 2
+    avg_weighted_a = ccfcr.avg_w(list_a)/s
+    avg_weighted_b = ccfcr.avg_w(list_b)/s
     ret_val = 0.0
     ret_val_w = 0.0
-    for i in range(len(list_a)):
+    for i in range(n):
         w = 1.0/(i+1)
-        ret_val += (list_a[i] - avg)*(list_b[i] - avg)
-        ret_val_w += ((list_a[i]- avg_weighted) * (list_b[i]-avg_weighted) * w)
+        #print list_a[i], list_b[i], avg_normal
+        ret_val += (list_a[i] - avg_normal)*(list_b[i] - avg_normal)
+        ret_val_w += ((list_a[i]- avg_weighted_a) * (list_b[i]-avg_weighted_b) * w)
     return ret_val, ret_val_w
 
 def correl_var(n, s):

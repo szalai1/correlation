@@ -82,21 +82,22 @@ def kendall(top_list_prev, top_list, sorted_id):
     return compute_kendall(list_a, list_b)
 
 """ KORRELACIO """
-def correl_w(list_a, list_b, s):
-    avg_a = avg_w(list_a)/s
-    avg_b = avg_w(list_b)/s
-    ret_val = 0
-    for i in range(len(list_a)):
-        w = 1.0/(i+1)
-        ret_val += ((list_a[i]- avg_a)*(list_b[i]-avg_b)*w)
-    return ret_val
-
 def correl(list_a, list_b, s):
     avg_a = avg(list_a)
     avg_b = avg(list_b)
-    ret_val = 0
+    ret_val = 0.0
     for i in range(len(list_a)):
+        #print list_a[i], list_b[i], avg_a, avg_b
         ret_val += (list_a[i]- avg_a)*(list_b[i]-avg_b)
+    return ret_val
+
+def correl_w(list_a, list_b, s):
+    avg_a = avg_w(list_a)/s
+    avg_b = avg_w(list_b)/s
+    ret_val = 0.0
+    for i in range(len(list_a)):
+        w = 1.0/(i+1)
+        ret_val += ((list_a[i]- avg_a)*(list_b[i]-avg_b)*w)
     return ret_val
 
 def corr(top_list_prev, top_list, sorted_id):
