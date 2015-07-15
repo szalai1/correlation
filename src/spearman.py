@@ -75,7 +75,8 @@ def main():
             day+=1
             continue
         if day != 0:
-            centralities  = spearman(top_list_prev, top_list)#, ret_sort)
+            centralities = [str(day)]
+            centralities += spearman(top_list_prev, top_list)#, ret_sort)
             centralities.append( inter["interval"]["graph_stat"]["num_nodes"])
             write_out(out_file, centralities, str(inter["interval"]["time"]["start"]) )
         day+=1

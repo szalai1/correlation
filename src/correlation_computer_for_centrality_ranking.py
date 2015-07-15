@@ -215,7 +215,8 @@ def main():
             day+=1
             continue
         if day != 0:
-            centralities = [str(inter["interval"]["time"]["start"])]
+            #centralities = [str(inter["interval"]["time"]["start"])]
+            centralities = [str(day)]
             centralities += compute(top_list_prev, top_list, ret_sort, metric)
             num_new_nodes = inter["interval"]["graph_stat"]["new_nodes"]
             num_deleted_nodes = inter["interval"]["graph_stat"]["deleted_nodes"]
