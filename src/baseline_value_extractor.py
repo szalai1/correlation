@@ -61,14 +61,23 @@ def main():
     day = 0
     day_data_maps = []
 
+    processed_indices = []
+    index_counter = 0
     for inter in intervals["centrality_test"]["intervals"]:
         print("[preproc day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
             day_data_maps.append(pre_proc(centrality_data_folder, input_file_prefix, day))
+            if day >= lookback:
+                processed_indices.append(index_counter)
+                index_counter += 1
+            else:
+                processed_indices.append(-1)
         else:
             print "empty day"
+            processed_indices.append(-1)
         day+=1
     #print day_data_maps
+    #print processed_indices
 
     print "evaluating baseline STARTED"
     if baseline_type == 1:
@@ -80,8 +89,12 @@ def main():
     	return
     #print processed_day_maps
 
-    for i in range(0, len(processed_day_maps)): # TODO: is there an unprinted last interval???
-    	write_out(output_folder, input_file_prefix, baseline_type, processed_day_maps[i], i+lookback)
+    for i in range(0, len(processed_indices)):
+        #print str(processed_indices[i])
+        if processed_indices[i] == -1:
+            continue
+        else:
+    	   write_out(output_folder, input_file_prefix, baseline_type, processed_day_maps[processed_indices[i]], i)
     print "evaluating baseline FINISHED"
 
 if __name__ == '__main__':
