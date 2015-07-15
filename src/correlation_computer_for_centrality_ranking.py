@@ -85,6 +85,8 @@ def kendall(top_list_prev, top_list, sorted_id):
 
 """ KORRELACIO """
 def correl(list_a, list_b, s):
+    print list_a
+    print list_b
     avg_a = avg(list_a)
     avg_b = avg(list_b)
     ret_val = 0.0
@@ -103,9 +105,9 @@ def correl_w(list_a, list_b, s):
     return ret_val
 
 def corr(top_list_prev, top_list, sorted_id):
-    print top_list_prev
-    print top_list
-    print sorted_id
+    #print top_list_prev
+    #print top_list
+    #print sorted_id
     list_a, list_b = proc_corr(top_list_prev, top_list, sorted_id)
     return compute_corr(list_a, list_b)
 

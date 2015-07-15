@@ -28,30 +28,41 @@ def load_json(dirname):
     return json.load(file)
 
 def main():
-    intervals = load_json(sys.argv[1])
-    out_folder = sys.argv[2]
-    day = 0
-    top_list_prev = []
+    input_file_folder_1 = sys.argv[1] # for baseline
+    file_prefix_1 = sys.argv[2] # for balseline
+    input_file_folder_2 = sys.argv[3] # for origi
+    file_prefix_2 = sys.argv[4] # for origi
+    from_interval = int(sys.argv[5])
+    to_interval = int(sys.argv[6])
+    out_folder = sys.argv[7]
+
+    intervals = load_json(input_file_folder_2)
+    top_list_other = []
     top_list = []
     ret_sort = []
-    num_nodes = 1
-    for inter in intervals["centrality_test"]["intervals"]:
+    intervals_list = intervals["centrality_test"]["intervals"]
+    for day in range(from_interval, to_interval+1):   
         print("[preproc day = " + str(day) +" ]")
-        if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
-            top_list, ret_sort = ccfcr.pre_proc(day)
+        if  intervals_list[day]["interval"]["graph_stat"]["num_nodes"] != 0:
+            top_list_other, ret_sort_other = ccfcr.pre_proc(input_file_folder_1, file_prefix_1, day) # for baseline
+            top_list, ret_sort = ccfcr.pre_proc(input_file_folder_2, file_prefix_2, day) # for origi
         else:
             print str(day) + ": empty"
             day+=1
             continue
+        print top_list_other
+        print
+        print top_list
         if day != 0:
-            full_prev_toplist, full_toplist = ccfcr.proc_kendall(top_list_prev, top_list, ret_sort)
+            full_prev_toplist, full_toplist = ccfcr.proc_kendall(top_list_other, top_list, ret_sort)
+            print full_prev_toplist
+            print
+            print full_toplist
             write_out_toplists(out_folder+"/pagerank_", day, full_prev_toplist, full_toplist)
-        day+=1
-        top_list_prev = top_list
         
 if __name__ == '__main__':
     argc = len(sys.argv)
-    if argc == 3:
+    if argc == 8:
         main()
     else:
-        print 'Usage: <centrality_data_folder> <preproc_folder>'
+        print 'Usage: <input_file_folder_1> <file_prefix_1> <input_file_folder_2> <file_prefix_2> <from_interval> <to_interval> <preproc_folder>'
