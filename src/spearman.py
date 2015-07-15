@@ -1,9 +1,11 @@
+#!/usr/bin/python
+
 import math
 import json
 import sys
 
-def pre_proc(day): # there are no ties in this case!
-    file = open(sys.argv[1]+ "/pagerank_scores_" + str(day) + ".txt_s")
+def pre_proc(centrality_data_folder, input_file_prefix, day):
+    file = open(centrality_data_folder + "/" + input_file_prefix + "_" + str(day) + ".txt_s")
     ret_val = {}
     rank = 1.0
     for line in file:
@@ -54,8 +56,11 @@ def load_json(dirname):
     return json.load(file)
 
 def main():
-    intervals = load_json(sys.argv[1])
-    out_file = open(sys.argv[2], 'w')
+    centrality_data_folder = sys.argv[1]
+    input_file_prefix = sys.argv[2]
+    output_file = sys.argv[3]
+    intervals = load_json(centrality_data_folder)
+    out_file = open(output_file, 'w')
     day = 0
     top_list_prev = []
     top_list = []
@@ -64,7 +69,7 @@ def main():
         print("[ day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
             #top_list, ret_sort = pre_proc(day)
-            top_list = pre_proc(day)
+            top_list = pre_proc(centrality_data_folder, input_file_prefix, day)
         else:
             out_file.write(str(inter["interval"]["time"]["start"])+" - 0\n")
             day+=1
@@ -78,7 +83,7 @@ def main():
                   
 if __name__ == '__main__':
    argc = len(sys.argv)
-   if argc == 3:
+   if argc == 4:
        main()
    else:
-       print 'Usage: <centrality_data_folder> <output_file>'
+       print 'Usage: <centrality_data_folder> <input_file_prefix> <output_file>'

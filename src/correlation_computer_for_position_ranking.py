@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import math
 import json
 import sys
@@ -150,8 +152,8 @@ def proc_corr(l1, l2, sort_id):
             list_a.append(l1[i])
     return list_a, list_b
 
-def pre_proc(day):
-    ret_val, ret_sort = ccfcr.pre_proc(day)
+def pre_proc(centrality_data_folder, input_file_prefix, day):
+    ret_val, ret_sort = ccfcr.pre_proc(centrality_data_folder, input_file_prefix, day)
     return  centrality_to_position(ret_val, ret_sort)
 
 def centrality_to_position(ret_val, ret_sort):
@@ -180,8 +182,12 @@ def compute(top_list_prev, top_list, ret_sort, correls):
     return ret_list
 
 def main():
-    intervals = ccfcr.load_json(sys.argv[1])
-    out_file = open(sys.argv[2], 'w')
+    centrality_data_folder = sys.argv[1]
+    input_file_prefix = sys.argv[2]
+    output_file = sys.argv[3]
+    metric = sys.argv[4]
+    intervals = ccfcr.load_json(centrality_data_folder)
+    out_file = open(output_file, 'w')
     day = 0
     top_list_prev = []
     top_list = []
@@ -190,7 +196,7 @@ def main():
     for inter in intervals["centrality_test"]["intervals"]:
         print("[ day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
-            top_list, ret_sort = pre_proc(day)
+            top_list, ret_sort = pre_proc(centrality_data_folder, input_file_prefix, day)
             num_prev_nodes = num_nodes
             num_nodes = inter["interval"]["graph_stat"]["num_nodes"]
         else:
@@ -199,7 +205,7 @@ def main():
             continue
         if day != 0:
             centralities = [str(inter["interval"]["time"]["start"])]
-            centralities += compute(top_list_prev, top_list, ret_sort, sys.argv[3:])
+            centralities += compute(top_list_prev, top_list, ret_sort, metric)
             num_new_nodes = inter["interval"]["graph_stat"]["new_nodes"]
             num_deleted_nodes = inter["interval"]["graph_stat"]["deleted_nodes"]
             centralities.append(num_nodes)
@@ -211,7 +217,7 @@ def main():
         
 if __name__ == '__main__':
     argc = len(sys.argv)
-    if argc == 4:
+    if argc == 5:
         main()
     else:
-        print 'Usage: <centrality_data_folder> <output_file> <kendall/corr>'
+        print 'Usage: <centrality_data_folder> <input_file_prefix> <output_file> <kendall/corr>'
