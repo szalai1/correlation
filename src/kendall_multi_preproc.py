@@ -28,8 +28,10 @@ def load_json(dirname):
     return json.load(file)
 
 def main():
-    intervals = load_json(sys.argv[1])
-    out_folder = sys.argv[2]
+    centrality_data_folder = sys.argv[1]
+    intervals = load_json(centrality_data_folder)
+    file_prefix = sys.argv[2]
+    out_folder = sys.argv[3]
     day = 0
     top_list_prev = []
     top_list = []
@@ -38,7 +40,7 @@ def main():
     for inter in intervals["centrality_test"]["intervals"]:
         print("[preproc day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
-            top_list, ret_sort = ccfcr.pre_proc(day)
+            top_list, ret_sort = ccfcr.pre_proc(centrality_data_folder, file_prefix, day)
         else:
             print str(day) + ": empty"
             day+=1
@@ -51,7 +53,7 @@ def main():
         
 if __name__ == '__main__':
     argc = len(sys.argv)
-    if argc == 3:
+    if argc == 4:
         main()
     else:
-        print 'Usage: <centrality_data_folder> <preproc_folder>'
+        print 'Usage: <centrality_data_folder> <file_prefix> <preproc_folder>'
