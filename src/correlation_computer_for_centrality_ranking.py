@@ -97,10 +97,13 @@ def correl_w(list_a, list_b, s):
     ret_val = 0.0
     for i in range(len(list_a)):
         w = 1.0/(i+1)
-        ret_val += ((list_a[i]- avg_a)*(list_b[i]-avg_b)*w)
+        ret_val += ((list_a[i]-avg_a)*(list_b[i]-avg_b)*w)
     return ret_val
 
 def corr(top_list_prev, top_list, sorted_id):
+    print top_list_prev
+    print top_list
+    print sorted_id
     list_a, list_b = proc_corr(top_list_prev, top_list, sorted_id)
     return compute_corr(list_a, list_b)
 

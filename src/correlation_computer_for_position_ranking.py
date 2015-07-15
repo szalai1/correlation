@@ -4,6 +4,15 @@ import sys
 import correlation_computer_for_centrality_ranking as ccfcr
 
 ##############################  Calculators ##############################
+""" # pytests: test_corr.py passes with Peti's avg_w():
+def avg_w(l):
+    sum = 0.0
+    N = len(l)
+    for i in range(N):
+        sum +=  (l[i]/(1.0+i))
+    return sum
+"""
+
 """ KENDALL  """
 def compute_kendall(list_a, list_b):
     print("  [ kendall start ... ]")
@@ -26,8 +35,13 @@ def kendall(top_list_prev, top_list, sorted_id):
 def correl(list_a, list_b, s):
     n = len(list_a)
     avg_normal = float(n+1) / 2
+    
     avg_weighted_a = ccfcr.avg_w(list_a)/s
     avg_weighted_b = ccfcr.avg_w(list_b)/s
+    """
+    avg_weighted_a = avg_w(list_a)/s
+    avg_weighted_b = avg_w(list_b)/s
+    """
     ret_val = 0.0
     ret_val_w = 0.0
     for i in range(n):
@@ -39,7 +53,11 @@ def correl(list_a, list_b, s):
 
 def correl_var(n, s):
     avg = float(n+1) / 2
+    
     avg_weighted = ccfcr.avg_w(range(1,n+1))/s
+    """
+    avg_weighted = avg_w(range(1,n+1))/s
+    """
     ret_val = 0.0
     ret_val_w = 0.0
     for i in range(n):
@@ -58,7 +76,15 @@ def compute_corr(list_a, list_b):
     return [val / var, w_val / w_var]
 
 def corr(top_list_prev, top_list, sorted_id):
+    """ 
+    print top_list_prev
+    print top_list
+    print sorted_id
+    """
     list_a, list_b = proc_corr(top_list_prev, top_list, sorted_id)
+    print list_a
+    print
+    print list_b
     return compute_corr(list_a, list_b)
 
 ################################ Processors ############################
@@ -101,8 +127,16 @@ def proc_corr(l1, l2, sort_id):
             counter_b += 1
             sum_b += n2
             n2 += 1
-    avg_a = sum_a / counter_a
-    avg_b = sum_b / counter_b
+
+    if counter_a > 0:
+        avg_a = sum_a / counter_a
+    else:
+        avg_a = 0.0
+
+    if counter_b > 0:
+        avg_b = sum_b / counter_b
+    else: 
+        avg_b = 0.0
 
     for i in sort_id:
         list_b.append(l2[i])
