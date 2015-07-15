@@ -85,8 +85,8 @@ def kendall(top_list_prev, top_list, sorted_id):
 
 """ KORRELACIO """
 def correl(list_a, list_b, s):
-    print list_a
-    print list_b
+    #print list_a
+    #print list_b
     avg_a = avg(list_a)
     avg_b = avg(list_b)
     ret_val = 0.0
@@ -211,7 +211,8 @@ def main():
             num_prev_nodes = num_nodes
             num_nodes = inter["interval"]["graph_stat"]["num_nodes"]
         else:
-            out_file.write(str(inter["interval"]["time"]["start"])+" - - 0 -1.0 -1.0\n")
+            #out_file.write(str(inter["interval"]["time"]["start"])+" - - 0 -1.0 -1.0\n")
+            out_file.write(str(day)+" - - 0 -1.0 -1.0\n")
             day+=1
             continue
         if day != 0:
@@ -221,8 +222,8 @@ def main():
             num_new_nodes = inter["interval"]["graph_stat"]["new_nodes"]
             num_deleted_nodes = inter["interval"]["graph_stat"]["deleted_nodes"]
             centralities.append(num_nodes)
-            centralities.append(float(num_new_nodes) / num_nodes)
-            centralities.append(float(num_deleted_nodes)/ num_prev_nodes)
+            #centralities.append(float(num_new_nodes) / num_nodes)
+            #centralities.append(float(num_deleted_nodes)/ num_prev_nodes)
             write_out(out_file, centralities)
         day+=1
         top_list_prev = top_list

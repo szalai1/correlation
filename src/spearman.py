@@ -71,14 +71,14 @@ def main():
             #top_list, ret_sort = pre_proc(day)
             top_list = pre_proc(centrality_data_folder, input_file_prefix, day)
         else:
-            out_file.write(str(inter["interval"]["time"]["start"])+" - 0\n")
+            #out_file.write(str(inter["interval"]["time"]["start"])+" - 0\n")
+            out_file.write(str(day)+" - 0\n")
             day+=1
             continue
         if day != 0:
-            centralities = [str(day)]
-            centralities += spearman(top_list_prev, top_list)#, ret_sort)
+            centralities = spearman(top_list_prev, top_list)#, ret_sort)
             centralities.append( inter["interval"]["graph_stat"]["num_nodes"])
-            write_out(out_file, centralities, str(inter["interval"]["time"]["start"]) )
+            write_out(out_file, centralities, str(day)) #str(inter["interval"]["time"]["start"]) )
         day+=1
         top_list_prev = top_list
                   
