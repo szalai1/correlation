@@ -50,14 +50,14 @@ def main():
             print str(day) + ": empty"
             day+=1
             continue
-        print top_list_other
-        print
-        print top_list
+        #print top_list_other
+        #print
+        #print top_list
         if day != 0:
             full_prev_toplist, full_toplist = ccfcr.proc_kendall(top_list_other, top_list, ret_sort)
-            print full_prev_toplist
-            print
-            print full_toplist
+            #print full_prev_toplist
+            #print
+            #print full_toplist
             write_out_toplists(out_folder+"/pagerank_", day, full_prev_toplist, full_toplist)
         
 if __name__ == '__main__':
