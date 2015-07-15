@@ -17,7 +17,7 @@ def write_out_toplists(prefix, append, full_prev_list, full_current_list):
     curr_file.close()
 
 def write_toplist(outfile, value_list):
-    for i in value_list[1:]:
+    for i in value_list[0:]:
         outfile.write(str(i)+"\n")
 
 #####################################################################
