@@ -17,6 +17,8 @@ def load_partial_results(day):
 def main():
     intervals = load_json(sys.argv[1])
     out_file = open(sys.argv[3], 'w')
+    from_interval = int(sys.argv[4])
+    to_interval = int(sys.argv[5])
     day = 0
     num_nodes = 1
     for inter in intervals["centrality_test"]["intervals"]:
@@ -25,10 +27,10 @@ def main():
             num_prev_nodes = num_nodes
             num_nodes = inter["interval"]["graph_stat"]["num_nodes"]
         else:
-            out_file.write(str(inter["interval"]["time"]["start"])+" - - 0 -1.0 -1.0\n")
+            out_file.write(str(day)+" - -\n")
             day+=1
             continue
-        if day != 0:
+        if (day != 0) and (from_interval <= day) and (day <= to_interval):
             #centralities = [str(inter["interval"]["time"]["start"])]
             centralities = [str(day)]
             centralities += load_partial_results(day)
@@ -42,7 +44,7 @@ def main():
         
 if __name__ == '__main__':
     argc = len(sys.argv)
-    if argc == 4:
+    if argc == 6:
         main()
     else:
-        print 'Usage: <centrality_data_folder> <preproc_folder> <output_file>'
+        print 'Usage: <centrality_data_folder> <preproc_folder> <output_file> <from_interval> <to_interval>'
