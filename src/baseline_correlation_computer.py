@@ -36,9 +36,9 @@ if argc == 10:
 		else:
 			out_file.write(str(day)+" - -\n")
 			continue
-		print top_list_other
-		print
-		print top_list
+		#print top_list_other
+		#print
+		#print top_list
 		if day != 0:
 			centralities = [str(day)]
 			if rank_type == "centrality":
