@@ -84,9 +84,9 @@ def corr(top_list_prev, top_list, sorted_id):
     print sorted_id
     """
     list_a, list_b = proc_corr(top_list_prev, top_list, sorted_id)
-    print list_a
-    print
-    print list_b
+    #print list_a
+    #print
+    #print list_b
     return compute_corr(list_a, list_b)
 
 ################################ Processors ############################
