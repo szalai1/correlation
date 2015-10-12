@@ -50,8 +50,8 @@ def load_toplist(toplist_file_name):
 def main():
     preproc_folder = sys.argv[1]
     interval_id = int(sys.argv[2])
-    prev_f_name = preproc_folder+"/pagerank_"+str(interval_id-1)+"_p.toplist"
-    curr_f_name = preproc_folder+"/pagerank_"+str(interval_id)+"_c.toplist"
+    prev_f_name = preproc_folder+"/pagerank_"+str(interval_id-1)+"_p.toplist" # toplist of previous interval
+    curr_f_name = preproc_folder+"/pagerank_"+str(interval_id)+"_c.toplist" # toplist of current interval
     if os.path.isfile(curr_f_name): # check whether the given day is empty
         top_list_prev = load_toplist(prev_f_name)
         top_list = load_toplist(curr_f_name)

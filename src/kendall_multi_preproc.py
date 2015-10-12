@@ -7,11 +7,11 @@ import correlation_computer_for_centrality_ranking as ccfcr
 
 ################################ FELDOLGOZOK ############################
 def write_out_toplists(prefix, append, full_prev_list, full_current_list):
-    prev_f_name = prefix+str(append-1)+"_p.toplist"
+    prev_f_name = prefix+str(append-1)+"_p.toplist" # previous toplist
     prev_file = open(prev_f_name, 'w')
     write_toplist(prev_file, full_prev_list)
     prev_file.close()
-    curr_f_name = prefix+str(append)+"_c.toplist"
+    curr_f_name = prefix+str(append)+"_c.toplist" # current toplist
     curr_file = open(curr_f_name, 'w')
     write_toplist(curr_file, full_current_list)
     curr_file.close()

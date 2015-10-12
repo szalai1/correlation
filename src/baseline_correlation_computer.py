@@ -50,4 +50,4 @@ if argc == 10:
 			ccfcr.write_out(out_file, centralities)
 
 else:
-	print 'Usage: <input_file_folder_1> <file_prefix_1> <input_file_folder_2> <file_prefix_2> <from_interval> <to_interval> <centrality/pos> <output_file> <kendall/corr>'
+	print 'Usage: <baseline_file_folder> <baseline_file_prefix> <original_input_file_folder> <original_file_prefix> <from_interval> <to_interval> <centrality/pos> <output_file> <kendall/corr>'
