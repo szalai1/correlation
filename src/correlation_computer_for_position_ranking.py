@@ -200,7 +200,8 @@ def main():
             num_prev_nodes = num_nodes
             num_nodes = inter["interval"]["graph_stat"]["num_nodes"]
         else:
-            out_file.write(str(inter["interval"]["time"]["start"])+" - - 0 -1.0 -1.0\n")
+            #out_file.write(str(inter["interval"]["time"]["start"])+" - - 0 -1.0 -1.0\n")
+            out_file.write(str(day)+" - - 0 -1.0 -1.0\n")
             day+=1
             continue
         if day != 0:

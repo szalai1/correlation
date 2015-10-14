@@ -222,8 +222,8 @@ def main():
             num_new_nodes = inter["interval"]["graph_stat"]["new_nodes"]
             num_deleted_nodes = inter["interval"]["graph_stat"]["deleted_nodes"]
             centralities.append(num_nodes)
-            #centralities.append(float(num_new_nodes) / num_nodes)
-            #centralities.append(float(num_deleted_nodes)/ num_prev_nodes)
+            centralities.append(float(num_new_nodes) / num_nodes)
+            centralities.append(float(num_deleted_nodes)/ num_prev_nodes)
             write_out(out_file, centralities)
         day+=1
         top_list_prev = top_list

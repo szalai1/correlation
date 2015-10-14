@@ -57,16 +57,17 @@ def main():
     lookback = int(sys.argv[3])
     baseline_type = int(sys.argv[4])
     output_folder = sys.argv[5]
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
     intervals = ccfcr.load_json(centrality_data_folder)
     day = 0
     day_data_maps = []
-
     processed_indices = []
     index_counter = 0
     for inter in intervals["centrality_test"]["intervals"]:
         print("[preproc day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
-            day_data_maps.append(pre_proc(centrality_data_folder, input_file_prefix, day))
+            day_data_maps.append(pre_proc(centrality_data_folder + "/centrality_scores", input_file_prefix, day))
             if day >= lookback:
                 processed_indices.append(index_counter)
                 index_counter += 1

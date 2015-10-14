@@ -49,14 +49,15 @@ def load_toplist(toplist_file_name):
 
 def main():
     preproc_folder = sys.argv[1]
-    interval_id = int(sys.argv[2])
-    prev_f_name = preproc_folder+"/pagerank_"+str(interval_id-1)+"_p.toplist" # toplist of previous interval
-    curr_f_name = preproc_folder+"/pagerank_"+str(interval_id)+"_c.toplist" # toplist of current interval
+    file_prefix = sys.argv[2]
+    interval_id = int(sys.argv[3])
+    prev_f_name = preproc_folder + "/" + file_prefix + "_" + str(interval_id-1) + "_p.toplist" # toplist of previous interval
+    curr_f_name = preproc_folder + "/" + file_prefix + "_" + str(interval_id) + "_c.toplist" # toplist of current interval
     if os.path.isfile(curr_f_name): # check whether the given day is empty
         top_list_prev = load_toplist(prev_f_name)
         top_list = load_toplist(curr_f_name)
         val, w_val = kendall_all(top_list_prev, top_list)
-        out_f_name = preproc_folder+"/pagerank_"+str(interval_id)+".kendall"
+        out_f_name = preproc_folder + "/" + file_prefix + "_" + str(interval_id)+".kendall"
         out_file = open(out_f_name,"w")
         out_file.write(str(val)+" "+str(w_val)+"\n")
         out_file.close()
@@ -65,7 +66,7 @@ def main():
 
 if __name__ == '__main__':
     argc = len(sys.argv)
-    if argc == 3:
+    if argc == 4:
         main()
     else :
-        print 'Usage: <preproc_folder> <interval_id>'
+        print 'Usage: <preproc_folder> <file_prefix> <interval_id>'
