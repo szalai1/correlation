@@ -69,7 +69,7 @@ def main():
         print("[ day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
             #top_list, ret_sort = pre_proc(day)
-            top_list = pre_proc(centrality_data_folder, input_file_prefix, day)
+            top_list = pre_proc(centrality_data_folder + "/centrality_scores", input_file_prefix, day)
         else:
             #out_file.write(str(inter["interval"]["time"]["start"])+" - 0\n")
             out_file.write(str(day)+" - 0\n")

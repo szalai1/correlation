@@ -207,7 +207,7 @@ def main():
     for inter in intervals["centrality_test"]["intervals"]:
         print("[ day = " + str(day) +" ]")
         if  inter["interval"]["graph_stat"]["num_nodes"] != 0:
-            top_list, ret_sort = pre_proc(centrality_data_folder, input_file_prefix, day)
+            top_list, ret_sort = pre_proc(centrality_data_folder + "/centrality_scores", input_file_prefix, day)
             num_prev_nodes = num_nodes
             num_nodes = inter["interval"]["graph_stat"]["num_nodes"]
         else:
