@@ -1,8 +1,10 @@
 #!/bin/bash
 
+do_normalization="$2"
+
 function sort_directory {
     for i in $(ls $1/*.txt); do
-        python $(dirname $0)/src/sort_by_value.py $i "$i"_s &
+        python $(dirname $0)/src/sort_by_value.py $i "$i"_s "$do_normalization" &
     done
 }
 
