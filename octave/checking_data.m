@@ -61,10 +61,7 @@ function [plot_corr,plot_corr_sp] = compute_with_index_set_consecutive (dataset_
     endfor;
 endfunction
 
-function [plot_corr,plot_corr_sp] = calculate_corrs (dataset_name,days_set,score_name, mode)
-    #plot_corr = []
-    #plot_corr_sp = []
-    folder_prefix = '/mnt/idms/rank_correlation_common/results/new_experiments/centrality_output_for_datasets'
+function [plot_corr,plot_corr_sp] = calculate_corrs (dataset_name,days_set,score_name, folder_prefix, mode)
     printf("Calculating correlation STARTED\n");
     if strcmpi(mode,"all")
         [res_corr,res_sp] = compute_with_index_set_all (dataset_name,days_set,score_name,folder_prefix);
@@ -81,9 +78,10 @@ endfunction
 ############# main ###############
 
 arg_list = argv ();
-num_data = str2num(arg_list{1})
-num_of_days = str2num(arg_list{2})
-mode = char(arg_list{3})
+folder_prefix = char(arg_list{1})
+num_data = str2num(arg_list{2})
+num_of_days = str2num(arg_list{3})
+mode = char(arg_list{4})
 
 #mode = "consecutive";
 #mode = "all";
@@ -115,7 +113,7 @@ set(h,'PaperPosition',[0 0 29.7 20]);
     
 h=figure; hold on;
 for i=1:length(data_names),        
-    [x1,y1]=calculate_corrs(data_names(i),1:data_days(i),'pagerank', mode);
+    [x1,y1]=calculate_corrs(data_names(i),1:data_days(i),'pagerank', folder_prefix, mode);
     plot(2:data_days(i),x1(2:end),'-x','LineWidth',2,'Color',colororder{i})
     legenda{end+1}=char([data_names(i),' Pearson']); 
     plot(2:data_days(i),y1(2:end),'-o','LineWidth',2,'Color',colororder{i})
